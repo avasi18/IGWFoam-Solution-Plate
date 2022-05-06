@@ -1,0 +1,203 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+ 
+//***************************************************************************//
+//************define size of the model***************************************//
+ 
+convertToMeters 1.0;
+ 
+Lx_left -1.0;     //x-length of tank
+Lx_right 1.0;     //x-length of tank
+Lx1_left -0.1;     //x-length of block around plate
+Lx1_right 0.1;     //x-length of block around plate
+a_left -0.005;     // x-size of plate
+a_right 0.005;     // x-size of plate
+b_bot -0.0005;     // z-size of plate
+b_top 0.0005;     // z-size of plate
+Lz_bot -0.3;     //z-length of tank
+Lz_top 0.3;     //z-length of tank
+Lz1_bot -0.1;     //z-length of block around plate
+Lz1_top 0.1;     //z-length of block around plate
+Ly_front 0.0; // y-length of tank
+Ly_back 0.01; // y-length of tank
+ 
+Nx1 120;
+Nz1 100;
+Nx2 60;
+Nz2 50;
+Nz3 50;
+coeff1 0.01;
+coeff2 100; //1.0 / coeff1
+ 
+vertices
+(
+    ($Lx_left $Ly_front $Lz_bot)    //vertex 0
+    ($Lx1_left $Ly_front $Lz_bot)    //vertex 1
+    ($Lx1_right $Ly_front $Lz_bot)    //vertex 2
+    ($Lx_right $Ly_front $Lz_bot)    //vertex 3
+    ($Lx_left $Ly_back $Lz_bot)    //vertex 4
+    ($Lx1_left $Ly_back $Lz_bot)    //vertex 5
+    ($Lx1_right $Ly_back $Lz_bot)    //vertex 6
+    ($Lx_right $Ly_back $Lz_bot)    //vertex 7
+    ($Lx_left $Ly_front $Lz1_bot)    //vertex 8
+    ($Lx1_left $Ly_front $Lz1_bot)    //vertex 9
+    ($Lx1_right $Ly_front $Lz1_bot)    //vertex 10
+    ($Lx_right $Ly_front $Lz1_bot)    //vertex 11
+    ($Lx_left $Ly_back $Lz1_bot)    //vertex 12
+    ($Lx1_left $Ly_back $Lz1_bot)    //vertex 13
+    ($Lx1_right $Ly_back $Lz1_bot)    //vertex 14
+    ($Lx_right $Ly_back $Lz1_bot)    //vertex 15
+    ($a_left $Ly_front $b_bot)    //vertex 16
+    ($a_right $Ly_front $b_bot)    //vertex 17
+    ($a_left $Ly_back $b_bot)    //vertex 18
+    ($a_right $Ly_back $b_bot)    //vertex 19
+    ($a_left $Ly_front $b_top)    //vertex 20
+    ($a_right $Ly_front $b_top)    //vertex 21
+    ($a_left $Ly_back $b_top)    //vertex 22
+    ($a_right $Ly_back $b_top)    //vertex 23
+    ($Lx_left $Ly_front $Lz1_top)    //vertex 24
+    ($Lx1_left $Ly_front $Lz1_top)    //vertex 25
+    ($Lx1_right $Ly_front $Lz1_top)    //vertex 26
+    ($Lx_right $Ly_front $Lz1_top)    //vertex 27
+    ($Lx_left $Ly_back $Lz1_top)    //vertex 28
+    ($Lx1_left $Ly_back $Lz1_top)    //vertex 29
+    ($Lx1_right $Ly_back $Lz1_top)    //vertex 30
+    ($Lx_right $Ly_back $Lz1_top)    //vertex 31
+    ($Lx_left $Ly_front $Lz_top)    //vertex 32
+    ($Lx1_left $Ly_front $Lz_top)    //vertex 33
+    ($Lx1_right $Ly_front $Lz_top)    //vertex 34
+    ($Lx_right $Ly_front $Lz_top)    //vertex 35
+    ($Lx_left $Ly_back $Lz_top)    //vertex 36
+    ($Lx1_left $Ly_back $Lz_top)    //vertex 37
+    ($Lx1_right $Ly_back $Lz_top)    //vertex 38
+    ($Lx_right $Ly_back $Lz_top)    //vertex 39
+);
+ 
+blocks
+(
+    hex (0 1 5 4 8 9 13 12) ($Nx1 1 $Nz3) simpleGrading (1 1 1) //block 0
+    hex (1 2 6 5 9 10 14 13) ($Nx2 1 $Nz3) simpleGrading (1 1 1) //block 1
+    hex (2 3 7 6 10 11 15 14) ($Nx1 1 $Nz3) simpleGrading (1 1 1) //block 2
+    hex (8 9 13 12 24 25 29 28) ($Nx1 1 $Nz2) simpleGrading (1 1 1) //block 3
+    hex (9 16 18 13 25 20 22 29) ($Nz1 1 $Nz2) simpleGrading ($coeff1 1 1) //block 4
+    hex (9 10 14 13 16 17 19 18) ($Nx2 1 $Nz1) simpleGrading (1 1 $coeff1) //block 5
+    hex (17 10 14 19 21 26 30 23) ($Nz1 1 $Nz2) simpleGrading ($coeff2 1 1) //block 6
+    hex (10 11 15 14 26 27 31 30) ($Nx1 1 $Nz2) simpleGrading (1 1 1) //block 7
+    hex (20 21 23 22 25 26 30 29) ($Nx2 1 $Nz1) simpleGrading (1 1 $coeff2) //block 8
+    hex (24 25 29 28 32 33 37 36) ($Nx1 1 $Nz3) simpleGrading (1 1 1) //block 9
+    hex (25 26 30 29 33 34 38 37) ($Nx2 1 $Nz3) simpleGrading (1 1 1) //block 10
+    hex (26 27 31 30 34 35 39 38) ($Nx1 1 $Nz3) simpleGrading (1 1 1) //block 11
+);
+ 
+edges
+(
+);
+ 
+boundary
+(
+    TOP
+    {
+        type wall;
+        faces
+        (
+            (32 33 37 36)
+            (33 34 38 37)
+            (34 35 39 38)
+        );
+    }
+    BOT
+    {
+        type wall;
+        faces
+        (
+            (0 1 5 4)
+            (1 2 6 5)
+            (2 3 7 6)
+        );
+    }
+ 
+    RIGHT
+    {
+        type wall;
+        faces
+        (
+            (3 7 15 11)
+            (11 15 31 27)
+        (27 31 39 35)
+        );
+    }
+ 
+    LEFT
+    {
+        type wall;
+        faces
+        (
+            (0 4 12 8)
+            (8 12 28 24)
+        (24 28 36 32)
+        );
+    }
+ 
+ 
+    PLANE
+    {
+        type wall;
+        faces
+        (
+            (16 18 22 20)
+            (16 17 19 18)
+            (17 19 23 21)
+        (20 21 23 22)
+        );
+    }
+    SYMM
+    {
+        type empty;
+        faces
+        (
+            (0 1 9 8)
+            (1 2 10 9)
+            (2 3 11 10)
+            (8 9 25 24)
+            (9 16 20 25)
+            (9 10 17 16)
+            (17 10 26 21)
+            (20 21 26 25)
+            (10 11 27 26)
+            (24 25 33 32)
+            (25 26 34 33)
+            (26 27 35 34)
+            (4 5 13 12)
+            (5 6 14 13)
+            (6 7 15 14)
+            (12 13 29 28)
+            (13 18 22 29)
+            (13 14 19 18)
+            (19 14 30 23)
+            (22 23 30 29)
+            (14 15 31 30)
+            (28 29 37 36)
+            (29 30 38 37)
+            (30 31 39 38)
+        );
+    }
+);
+ 
+mergePatchPairs
+(
+);
+ 
+// ************************************************************************* //
